@@ -37,6 +37,11 @@
 	$file_count = count($all_photos);
 	$photo_num = mt_rand(0, $file_count - 1);
 	$photo_html = '<img src="' . $photo_dir . $all_photos[$photo_num] . '" alt="Tallinna Ülikool">';
+	$photo_select_num = null;
+	if (isset($_POST["submit_picture"])) { //pildi valimine
+		$photo_select_num = $_POST["photo_select"];
+		$photo_html = '<img src="' . $photo_dir . $all_photos[$photo_select_num] . '" alt="Tallinna Ülikool">';
+	}
 	$photo_list_html = "\n <ul> \n";
 	
 	//tsükkel
@@ -48,10 +53,17 @@
 	//<li>pildifailn.jpg</li>
 	//</ul>
 	
-	for ($i = 0; $i < $file_count; $i++) {
+/*	for ($i = 0; $i < $file_count; $i++) {
+		$photo_list_html .= "<li>" . $all_photos[$i] . "</li> \n";
+	}  */
+	if (isset($all_photos[$photo_select_num])){
+		$photo_list_html .= "<li>" . $all_photos[$photo_select_num] . "</li> \n";
+	} else if (isset($all_photos[$photo_num])) {
+		$photo_list_html .= "<li>" . $all_photos[$photo_num] . "</li> \n";
+	} else {
 		$photo_list_html .= "<li>" . $all_photos[$i] . "</li> \n";
 	}
-	$photo_list_html .= "<ul> \n";	
+	$photo_list_html .= "</ul> \n";
 	
 /*	<select name="photo_select">
 		<option value="0">tlu_astra_600x400_1.jpg</option> 
@@ -66,7 +78,17 @@
 	
 	$photo_select_html = '<select name="photo_select">' . "\n";
 	for ($i = 0; $i < $file_count; $i++) {
-		$photo_select_html .= '<option value="' . $i . '">' . $all_photos[$i] . "</option> \n";
+		if (isset($_POST["submit_picture"])) { //kontroll, kas pilt on valitud
+			if ($all_photos[$i] == $all_photos[$photo_select_num]) {
+				$photo_select_html .= '<option value="' . $i . '" selected>' . $all_photos[$i] . "</option> \n";
+			} else {
+				$photo_select_html .= '<option value="' . $i . '">' . $all_photos[$i] . "</option> \n";
+			}
+		} else if ($all_photos[$i] == $all_photos[$photo_num]) { //juhuslikult valitud pilt
+			$photo_select_html .= '<option value="' . $i . '" selected>' . $all_photos[$i] . "</option> \n";
+		} else {
+			$photo_select_html .= '<option value="' . $i . '">' . $all_photos[$i] . "</option> \n";
+		}
 	}
 	$photo_select_html .= "</select> \n";
 	
@@ -94,6 +116,7 @@
 	
 	<form method="POST">
 		<?= $photo_select_html; ?>
+		<input type="submit" name="submit_picture" value="Vaheta pilti">
 	</form>
 	
 	<?= $photo_html . $photo_list_html; ?>
