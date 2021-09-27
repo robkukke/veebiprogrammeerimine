@@ -99,3 +99,9 @@ function store_film(
     $conn->close();
     return $success;
 }
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return htmlspecialchars($data);
+}
