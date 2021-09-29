@@ -1,4 +1,6 @@
 <?php
+require_once "../../config.php";
+require_once "fnc_user.php";
 $author_name = "Robin Kukke";
 
 /**
@@ -84,6 +86,12 @@ for ($i = 0; $i < $file_count; $i++) {
     $photo_select_html .= ">" . $all_photos[$i] . "</option> \n";
 }
 $photo_select_html .= "</select> \n";
+
+// sisse logimise ...
+$notice = null;
+if (isset($_POST["login_submit"])) {
+    $notice = sign_in($_POST["email_input"], $_POST["password_input"]);
+}
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -97,6 +105,13 @@ $photo_select_html .= "</select> \n";
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+        <input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email">
+        <input name="password_input" placeholder="salasõna" type="password">
+        <input name="login_submit" type="submit" value="Logi sisse">
+    </form>
+    <p><?= $notice ?></p>
+    <hr>
 	<!--ekraanivorm-->
 	<form method="post">
 		<input name="todays_adjective_input" placeholder="tänase päeva ilma omadus" type="text" value="<?= $todays_adjective ?>">
