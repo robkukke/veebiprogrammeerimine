@@ -1,5 +1,7 @@
 <?php
+session_start();
 require_once "../../config.php";
+require_once "fnc_general.php";
 require_once "fnc_user.php";
 $author_name = "Robin Kukke";
 
@@ -89,8 +91,31 @@ $photo_select_html .= "</select> \n";
 
 // sisse logimise ...
 $notice = null;
-if (isset($_POST["login_submit"])) {
-    $notice = sign_in($_POST["email_input"], $_POST["password_input"]);
+$email_input = null;
+$email_input_error = null;
+$password_input_error = null;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["login_submit"])) {
+        if (isset($_POST["email_input"]) and !empty($_POST["email_input"])) {
+            $email_input = test_input(filter_var($_POST["email_input"], FILTER_VALIDATE_EMAIL));
+            if (empty($email_input)) {
+                $email_input_error = "Palun sisesta oma e-posti aadress!";
+            }
+        } else {
+            $email_input_error = "Palun sisesta oma e-posti aadress!";
+        }
+        if (isset($_POST["password_input"]) and !empty($_POST["password_input"])) {
+            if (strlen($_POST["password_input"]) < 8) {
+                $password_input_error = "Sisestatud salasõna on liiga lühike!";
+            }
+        } else {
+            $password_input_error = "Palun sisesta salasõna!";
+        }
+
+        if (empty($email_input_error) and empty($password_input_error)) {
+            $notice = sign_in($_POST["email_input"], $_POST["password_input"]);
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -106,9 +131,11 @@ if (isset($_POST["login_submit"])) {
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-        <input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email">
+        <input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email" value="<?= $email_input ?>">
         <input name="password_input" placeholder="salasõna" type="password">
         <input name="login_submit" type="submit" value="Logi sisse">
+        <span><?= "<br>" . $email_input_error ?></span>
+        <span><?= "<br>" . $password_input_error ?></span>
     </form>
     <p><?= $notice ?></p>
     <hr>
