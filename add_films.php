@@ -1,9 +1,21 @@
 <?php
+session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: page2.php");
+}
+if (isset($_SESSION["user_firstname"]) and isset($_SESSION["user_lastname"])) {
+    $author_name = $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"];
+} else {
+    $author_name = "Robin Kukke";
+}
+if (isset($_GET["logout"])){
+    session_destroy();
+    header("Location: page2.php");
+}
 require_once "../../config.php";
 require_once "fnc_film.php";
 require_once "fnc_general.php";
 // echo $server_host;
-$author_name = "Robin Kukke";
 $film_store_notice = null;
 $title_input = null;
 $year_input = date("Y");
@@ -86,6 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
+    <p>Oled sees!</p>
+    <p><a href="?logout=1">Logi välja</a></p>
 	<h2>Eesti filmid</h2>
 	<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
 		<label for="title_input">Filmi pealkiri: </label>

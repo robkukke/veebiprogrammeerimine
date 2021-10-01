@@ -1,6 +1,18 @@
 <?php
+session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: page2.php");
+}
+if (isset($_SESSION["user_firstname"]) and isset($_SESSION["user_lastname"])) {
+    $author_name = $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"];
+} else {
+    $author_name = "Robin Kukke";
+}
+if (isset($_GET["logout"])){
+    session_destroy();
+    header("Location: page2.php");
+}
 require_once "fnc_user.php";
-$author_name = "Robin Kukke";
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -15,5 +27,6 @@ $author_name = "Robin Kukke";
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
 	<p>Oled sees!</p>
+    <p><a href="?logout=1">Logi välja</a></p>
 </body>
 </html>
