@@ -113,8 +113,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         if (empty($email_input_error) and empty($password_input_error)) {
-            $notice = sign_in($_POST["email_input"], $_POST["password_input"]);
-        }
+            $notice = sign_in($email_input, $_POST["password_input"]);
+        } else {
+			$notice = $email_input_error . " " . $password_input_error;
+		}
     }
 }
 ?>
@@ -134,10 +136,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email" value="<?= $email_input ?>">
         <input name="password_input" placeholder="salasõna" type="password">
         <input name="login_submit" type="submit" value="Logi sisse">
-        <span><?= "<br>" . $email_input_error ?></span>
-        <span><?= "<br>" . $password_input_error ?></span>
+        <span><?= $notice ?></span>
     </form>
-    <p><?= $notice ?></p>
+	<p>Loo endale <a href="add_user.php">kasutaja</a></p>
     <hr>
 	<!--ekraanivorm-->
 	<form method="post">
@@ -149,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	<hr>
 	<form method="post">
 		<?= $photo_select_html ?>
-		<input name="photo_select_submit" type="submit" value="Vaheta pilti">
+		<input name="photo_select_submit" type="submit" value="Näita valitud fotot">
 	</form>
 	<?= $photo_html . $photo_file_html . "<hr> \n" . $photo_list_html ?>
 </body>
