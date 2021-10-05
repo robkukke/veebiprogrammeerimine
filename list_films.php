@@ -19,11 +19,11 @@ $film_html = read_all_films();
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
-    <ul>
-        <li><a href="?logout=1">Logi välja</a></li>
+	<ul>
+		<li><a href="?logout=1">Logi välja</a></li>
 		<li><a href="home.php">Avaleht</a></li>
 		<li><a href="add_films.php">Filmide lisamine andmebaasi</a> versioon 1</li>
-    </ul>
+	</ul>
 	<hr>
 	<h2>Eesti filmid</h2>
 	<?= $film_html ?>

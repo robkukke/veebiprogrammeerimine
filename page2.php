@@ -115,8 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($email_input_error) and empty($password_input_error)) {
             $notice = sign_in($email_input, $_POST["password_input"]);
         } else {
-			$notice = $email_input_error . " " . $password_input_error;
-		}
+            $notice = $email_input_error . " " . $password_input_error;
+        }
     }
 }
 ?>
@@ -132,14 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
-    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-        <input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email" value="<?= $email_input ?>">
-        <input name="password_input" placeholder="salasõna" type="password">
-        <input name="login_submit" type="submit" value="Logi sisse">
-        <span><?= $notice ?></span>
-    </form>
+	<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+		<input name="email_input" placeholder="kasutajatunnus ehk e-post" type="email" value="<?= $email_input ?>">
+		<input name="password_input" placeholder="salasõna" type="password">
+		<input name="login_submit" type="submit" value="Logi sisse">
+		<span><?= $notice ?></span>
+	</form>
 	<p>Loo endale <a href="add_user.php">kasutaja</a></p>
-    <hr>
+	<hr>
 	<!--ekraanivorm-->
 	<form method="post">
 		<input name="todays_adjective_input" placeholder="tänase päeva ilma omadus" type="text" value="<?= $todays_adjective ?>">

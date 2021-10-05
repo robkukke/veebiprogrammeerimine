@@ -87,40 +87,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
-    <ul>
-        <li><a href="?logout=1">Logi välja</a></li>
+	<ul>
+		<li><a href="?logout=1">Logi välja</a></li>
 		<li><a href="home.php">Avaleht</a></li>
 		<li><a href="list_films.php">Filmide nimekirja vaatamine</a> versioon 1</li>
-    </ul>
+	</ul>
 	<hr>
 	<h2>Eesti filmid</h2>
 	<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
 		<label for="title_input">Filmi pealkiri: </label>
 		<input id="title_input" name="title_input" placeholder="filmi pealkiri" type="text" value="<?= $title_input ?>">
-        <span><?= $title_input_error ?></span>
+		<span><?= $title_input_error ?></span>
 		<br>
 		<label for="year_input">Valmimisaasta: </label>
 		<input id="year_input" min="1912" name="year_input" type="number" value="<?= $year_input ?>">
-        <span><?= $year_input_error ?></span>
+		<span><?= $year_input_error ?></span>
 		<br>
 		<label for="duration_input">Kestus minutites: </label>
 		<input id="duration_input" max="600" min="1" name="duration_input" type="number" value="<?= $duration_input ?>">
-        <span><?= $duration_input_error ?></span>
+		<span><?= $duration_input_error ?></span>
 		<br>
 		<label for="genre_input">Filmi žanr: </label>
 		<input id="genre_input" name="genre_input" placeholder="žanr" type="text" value="<?= $genre_input ?>">
-        <span><?= $genre_input_error ?></span>
+		<span><?= $genre_input_error ?></span>
 		<br>
 		<label for="studio_input">Filmi tootja: </label>
 		<input id="studio_input" name="studio_input" placeholder="filmi tootja" type="text" value="<?= $studio_input ?>">
-        <span><?= $studio_input_error ?></span>
+		<span><?= $studio_input_error ?></span>
 		<br>
 		<label for="director_input">Filmi lavastaja: </label>
 		<input id="director_input" name="director_input" placeholder="filmi režissöör" type="text" value="<?= $director_input ?>">
-        <span><?= $director_input_error ?></span>
+		<span><?= $director_input_error ?></span>
 		<br>
 		<input name="film_submit" type="submit" value="Salvesta">
 	</form>
-    <p><?= $film_store_notice ?></p>
+	<p><?= $film_store_notice ?></p>
 </body>
 </html>

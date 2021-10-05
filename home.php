@@ -15,10 +15,10 @@ require_once "page_header.php";
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
 	<ul>
-        <li><a href="?logout=1">Logi välja</a></li>
+		<li><a href="?logout=1">Logi välja</a></li>
 		<li><a href="list_films.php">Filmide nimekirja vaatamine</a> versioon 1</li>
 		<li><a href="add_films.php">Filmide lisamine andmebaasi</a> versioon 1</li>
 		<li><a href="user_profile.php">Kasutaja profiil</a></li>
-    </ul>
+	</ul>
 </body>
 </html>

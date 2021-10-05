@@ -17,10 +17,10 @@ $description = get_user_description();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["profile_submit"])) {
         $description = test_input(filter_var($_POST["description_input"], FILTER_SANITIZE_STRING));
-		$_SESSION["bg_color"] = $_POST["bg_color_input"];
-		$_SESSION["text_color"] = $_POST["text_color_input"];
-		$notice = save_user_profile($description, $_POST["bg_color_input"], $_POST["text_color_input"]);
-	}
+        $_SESSION["bg_color"] = $_POST["bg_color_input"];
+        $_SESSION["text_color"] = $_POST["text_color_input"];
+        $notice = save_user_profile($description, $_POST["bg_color_input"], $_POST["text_color_input"]);
+    }
 }
 ?>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
@@ -28,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
 	<p>Õppetöö toimus 2021 sügisel.</p>
 	<hr>
-    <ul>
-        <li><a href="?logout=1">Logi välja</a></li>
+	<ul>
+		<li><a href="?logout=1">Logi välja</a></li>
 		<li><a href="home.php">Avaleht</a></li>
-    </ul>
+	</ul>
 	<hr>
 	<h2>Kasutajaprofiil</h2>
 	<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
@@ -49,6 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		<br>
 		<input name="profile_submit" type="submit" value="Salvesta">
 	</form>
-    <p><?= $notice ?></p>
+	<p><?= $notice ?></p>
 </body>
 </html>
