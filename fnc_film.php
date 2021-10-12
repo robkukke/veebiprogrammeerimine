@@ -93,7 +93,7 @@ function store_film(
     if ($stmt->execute()) {
         $success = "Salvestamine õnnestus!";
     } else {
-        $success = "Salvestaminsel tekkis viga: " . $stmt->error;
+        $success = "Salvestamisel tekkis viga: " . $stmt->error;
     }
     $stmt->close();
     $conn->close();
