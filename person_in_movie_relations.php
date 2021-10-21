@@ -3,11 +3,15 @@ session_start();
 if (!isset($_SESSION["user_id"])) {
     header("Location: page2.php");
 }
-if (isset($_GET["logout"])){
+if (isset($_GET["logout"])) {
     session_destroy();
     header("Location: page2.php");
 }
+require_once "../../config.php";
+require_once "fnc_movie.php";
 require_once "page_header.php";
+$output_html = null;
+$output_html = read_all_person_in_movie_relations();
 ?>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
 	<p>See leht on valminud õppetöö raames ja ei sisalda mingit tõsiseltvõetavat sisu!</p>
@@ -16,12 +20,10 @@ require_once "page_header.php";
 	<hr>
 	<ul>
 		<li><a href="?logout=1">Logi välja</a></li>
-		<li><a href="list_films.php">Filmide nimekirja vaatamine</a> versioon 1</li>
-		<li><a href="add_films.php">Filmide lisamine andmebaasi</a> versioon 1</li>
-		<li><a href="user_profile.php">Kasutajaprofiil</a></li>
-		<li><a href="movie_relations.php">Filmi info seoste loomine</a></li>
-		<li><a href="add_movie_data.php">Info lisamine filmide andmebaasi</a></li>
-		<li><a href="person_in_movie_relations.php">Filmide ja tegelaste seosed</a></li>
+		<li><a href="home.php">Avaleht</a></li>
 	</ul>
+	<hr>
+	<h2>Filmide ja tegelaste seosed</h2>
+	<?= $output_html ?>
 </body>
 </html>
