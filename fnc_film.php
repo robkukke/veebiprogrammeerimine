@@ -41,7 +41,7 @@ function read_all_films() {
         $film_html .= "\n <h3>" . $title_from_db . "</h3> \n";
         $film_html .= "<ul> \n";
         $film_html .= "<li>Valmimisaasta: " . $year_from_db . "</li> \n";
-        $film_html .= "<li>Kestus: " . $duration_from_db . "</li> \n";
+        $film_html .= "<li>Kestus: " . transform_minutes($duration_from_db) . "</li> \n";
         $film_html .= "<li>Žanr: " . $genre_from_db . "</li> \n";
         $film_html .= "<li>Tootja: " . $studio_from_db . "</li> \n";
         $film_html .= "<li>Lavastaja: " . $director_from_db . "</li> \n";
@@ -98,4 +98,30 @@ function store_film(
     $stmt->close();
     $conn->close();
     return $success;
+}
+
+function transform_minutes($duration_from_db) {
+    $duration = null;
+    if ($duration_from_db == 1) {
+        $duration .= "1 minut";
+    } elseif ($duration_from_db > 1 and $duration_from_db < 60) {
+        $duration .= $duration_from_db . " minutit";
+    } elseif (floor($duration_from_db / 60) == 1) {
+        if ($duration_from_db - 60 == 0) {
+            $duration .= "1 tund";
+        } elseif ($duration_from_db - 60 == 1) {
+            $duration .= "1 tund ja 1 minut";
+        } else {
+            $duration .= "1 tund ja " . ($duration_from_db - 60) . " minutit";
+        }
+    } else {
+        if ($duration_from_db - floor($duration_from_db / 60) * 60 == 0) {
+            $duration .= floor($duration_from_db / 60) . " tundi";
+        } elseif ($duration_from_db - floor($duration_from_db / 60) * 60 == 1) {
+            $duration .= floor($duration_from_db / 60) . " tundi ja 1 minut";
+        } else {
+            $duration .= floor($duration_from_db / 60) . " tundi ja " . ($duration_from_db - floor($duration_from_db / 60) * 60) . " minutit";
+        }
+    }
+    return $duration;
 }
