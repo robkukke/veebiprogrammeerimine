@@ -8,10 +8,9 @@ if (isset($_GET["logout"])) {
     header("Location: page2.php");
 }
 require_once "../../config.php";
+require_once "fnc_general.php";
 require_once "fnc_movie.php";
 require_once "page_header.php";
-$output_html = null;
-$output_html = read_all_person_in_movie_relations();
 ?>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
 	<p>See leht on valminud õppetöö raames ja ei sisalda mingit tõsiseltvõetavat sisu!</p>
@@ -23,7 +22,7 @@ $output_html = read_all_person_in_movie_relations();
 		<li><a href="home.php">Avaleht</a></li>
 	</ul>
 	<hr>
-	<h2>Filmide ja tegelaste seosed</h2>
-	<?= $output_html ?>
+	<h2>Isikute ja filmide info</h2>
+	<?= list_person_movie_info() ?>
 </body>
 </html>

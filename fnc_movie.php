@@ -1,5 +1,6 @@
 <?php
 $database = "if21_robin_ku";
+require_once "fnc_general.php";
 
 function read_all_person_for_option($selected) {
     $options_html = null;
@@ -25,7 +26,7 @@ function read_all_person_for_option($selected) {
         if ($id_from_db == $selected) {
             $options_html .= " selected";
         }
-        $options_html .= ">" . $first_name_from_db . " " . $last_name_from_db . " (" . transform_birth_date($birth_date_from_db) . ")</option> \n";
+        $options_html .= ">" . $first_name_from_db . " " . $last_name_from_db . " (" . date_to_est_format($birth_date_from_db) . ")</option> \n";
     }
     $stmt->close();
     $conn->close();
@@ -460,7 +461,8 @@ function store_production_company($company_name, $company_address) {
     return $notice;
 }
 
-function read_all_person_in_movie_relations() {
+function list_person_movie_info() {
+    $html = null;
     $conn = new mysqli(
         $GLOBALS["server_host"],
         $GLOBALS["server_user_name"],
@@ -469,46 +471,34 @@ function read_all_person_in_movie_relations() {
     );
     $conn->set_charset("utf8");
     $stmt = $conn->prepare(
-        "SELECT movie.title, person_in_movie.role FROM movie JOIN person_in_movie ON movie.id = person_in_movie.movie_id WHERE person_in_movie.role IS NOT NULL"
+        "SELECT person.first_name, person.last_name, person.birth_date, person_in_movie.role, movie.title, movie.production_year, movie.duration FROM person JOIN person_in_movie ON person.id = person_in_movie.person_id JOIN movie ON movie.id = person_in_movie.movie_id"
     );
     echo $conn->error;
-    $stmt->bind_result($title_from_db, $role_from_db);
-    $output_html = null;
+    $stmt->bind_result(
+        $first_name_from_db,
+        $last_name_from_db,
+        $birth_date_from_db,
+        $role_from_db,
+        $title_from_db,
+        $production_year_from_db,
+        $duration_from_db
+    );
     $stmt->execute();
-    $previous_title_from_db = null;
     while ($stmt->fetch()) {
-        if ($previous_title_from_db == $title_from_db) {
-            $output_html .= "<ul> \n";
-            $output_html .= "<li>" . $role_from_db . "</li> \n";
-            $output_html .= "</ul> \n";
+        $html .= "<li>" . $first_name_from_db . " " . $last_name_from_db . " (sündinud: " . date_to_est_format($birth_date_from_db) . "), ";
+        if (!empty($role_from_db)) {
+            $html .= "tegelane " . $role_from_db . ' filmis "' . $title_from_db . '" (toodetud: ' . $production_year_from_db . ", kestus: " . duration_min_to_hour_and_min($duration_from_db) . ")";
         } else {
-            $output_html .= "\n <h3>" . $title_from_db . "</h3> \n";
-            $output_html .= "<ul> \n";
-            $output_html .= "<li>" . $role_from_db . "</li> \n";
-            $output_html .= "</ul> \n";
-            $previous_title_from_db = $title_from_db;
+            $html .= '"' . $title_from_db . '" (toodetud: ' . $production_year_from_db . ", kestus: " . duration_min_to_hour_and_min($duration_from_db) . ")";
         }
+        $html .= "</li> \n";
+    }
+    if (empty($html)) {
+        $html = "<p>Info puudub.</p> \n";
+    } else {
+        $html = "<ul> \n" . $html . "</ul> \n";
     }
     $stmt->close();
     $conn->close();
-    return $output_html;
-}
-
-function transform_birth_date($birth_date_from_db) {
-    $month_names_et = [
-        "jaanuar",
-        "veebruar",
-        "märts",
-        "aprill",
-        "mai",
-        "juuni",
-        "juuli",
-        "august",
-        "september",
-        "oktoober",
-        "november",
-        "detsember"
-    ];
-    $pieces = explode("-", $birth_date_from_db);
-    return $pieces[2] . ". " . $month_names_et[intval($pieces[1]) - 1] . " " . $pieces[0];
+    return $html;
 }
