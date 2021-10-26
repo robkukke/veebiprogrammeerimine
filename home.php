@@ -21,7 +21,8 @@ require_once "page_header.php";
 		<li><a href="user_profile.php">Kasutajaprofiil</a></li>
 		<li><a href="movie_relations.php">Filmi info seoste loomine</a></li>
 		<li><a href="add_movie_data.php">Info lisamine filmide andmebaasi</a></li>
-		<li><a href="person_in_movie_relations.php">Filmide ja tegelaste seosed</a></li>
+		<li><a href="list_movie_info.php">Isikute ja filmide info</a></li>
+		<li><a href="gallery_photo_upload.php">Fotode üleslaadimine</a></li>
 	</ul>
 </body>
 </html>
