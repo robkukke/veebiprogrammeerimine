@@ -1,8 +1,12 @@
 <?php
 session_start();
 require_once "../../config.php";
+require_once "fnc_gallery.php";
 require_once "fnc_general.php";
 require_once "fnc_user.php";
+$photo_upload_orig_dir = "upload_photos_orig/";
+$photo_upload_normal_dir = "upload_photos_normal/";
+$photo_upload_thumb_dir = "upload_photos_thumb/";
 $author_name = "Robin Kukke";
 
 /**
@@ -147,6 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		<span><?= $today_adjective_error ?></span>
 	</form>
 	<?= $today_html ?>
+	<hr>
+	<?= show_latest_public_foto() ?>
 	<hr>
 	<form method="post">
 		<?= $photo_select_html ?>

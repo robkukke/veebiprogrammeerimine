@@ -19,7 +19,12 @@ $css_color .= "\t}\n\t</style>\n";
 <head>
 	<meta charset="utf-8">
 	<title><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</title>
-	<?= $css_color ?>
+	<?php
+	echo $css_color;
+	if (isset($to_head) and !empty($to_head)) {
+		echo $to_head;
+	}
+	?>
 </head>
 <body>
 	<img alt="Veebiprogrammeerimise kursuse bänner" src="pics/vp_banner.png">
