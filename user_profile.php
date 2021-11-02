@@ -10,7 +10,6 @@ if (isset($_GET["logout"])){
 require_once "../../config.php";
 require_once "fnc_user.php";
 require_once "fnc_general.php";
-require_once "page_header.php";
 $notice = null;
 $description = get_user_description();
 
@@ -20,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $notice = save_user_profile($description, $_POST["bg_color_input"], $_POST["text_color_input"]);
     }
 }
+
+require_once "page_header.php";
 ?>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
 	<p>See leht on valminud õppetöö raames ja ei sisalda mingit tõsiseltvõetavat sisu!</p>

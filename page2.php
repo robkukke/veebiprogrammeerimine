@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../../config.php";
+require_once "fnc_gallery.php";
 require_once "fnc_general.php";
 require_once "fnc_user.php";
 $author_name = "Robin Kukke";
@@ -147,6 +148,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		<span><?= $today_adjective_error ?></span>
 	</form>
 	<?= $today_html ?>
+	<hr>
+	<?= show_latest_public_foto() ?>
 	<hr>
 	<form method="post">
 		<?= $photo_select_html ?>

@@ -23,6 +23,8 @@ require_once "page_header.php";
 		<li><a href="add_movie_data.php">Info lisamine filmide andmebaasi</a></li>
 		<li><a href="list_movie_info.php">Isikute ja filmide info</a></li>
 		<li><a href="gallery_photo_upload.php">Fotode üleslaadimine</a></li>
+		<li><a href="gallery_public.php">Sisseloginud kasutajatele avalike fotode galerii</a></li>
+		<li><a href="gallery_own.php">Minu oma fotode galerii</a></li>
 	</ul>
 </body>
 </html>
