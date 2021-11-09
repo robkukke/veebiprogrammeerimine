@@ -8,6 +8,7 @@ if (isset($_GET["logout"])) {
     header("Location: page2.php");
 }
 require_once "../../config.php";
+require_once "fnc_general.php";
 require_once "fnc_gallery.php";
 $photo_upload_orig_dir = "upload_photos_orig/";
 $photo_upload_normal_dir = "upload_photos_normal/";

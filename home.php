@@ -7,6 +7,18 @@ if (isset($_GET["logout"])){
     session_destroy();
     header("Location: page2.php");
 }
+
+/**
+ * proovin klassi
+ * require_once "classes/Test.class.php";
+ * $test_object = new Test(27);
+ * echo $test_object->secret_number;
+ * echo " Avalik number on: " . $test_object->public_number;
+ * $test_object->reveal();
+ * unset($test_object);
+ * $test_object->reveal();
+ */
+
 require_once "page_header.php";
 ?>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
