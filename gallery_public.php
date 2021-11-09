@@ -9,11 +9,12 @@ if (isset($_GET["logout"])) {
 }
 require_once "../../config.php";
 require_once "fnc_gallery.php";
+require_once "fnc_general.php";
 $photo_upload_orig_dir = "upload_photos_orig/";
 $photo_upload_normal_dir = "upload_photos_normal/";
 $photo_upload_thumb_dir = "upload_photos_thumb/";
 $page = 1;
-$limit = 5;
+$limit = 20;
 $public_from = 2;
 $photo_count = count_public_photos($public_from);
 $to_head = '<link rel="stylesheet" type="text/css" href="style/gallery.css">';

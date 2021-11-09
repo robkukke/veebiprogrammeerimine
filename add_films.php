@@ -8,8 +8,8 @@ if (isset($_GET["logout"])){
     header("Location: page2.php");
 }
 require_once "../../config.php";
-require_once "fnc_film.php";
 require_once "fnc_general.php";
+require_once "fnc_film.php";
 // echo $server_host;
 $film_store_notice = null;
 $title_input = null;

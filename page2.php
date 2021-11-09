@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	</form>
 	<?= $today_html ?>
 	<hr>
-	<?= show_latest_public_foto() ?>
+	<?= show_latest_public_photo() ?>
 	<hr>
 	<form method="post">
 		<?= $photo_select_html ?>
