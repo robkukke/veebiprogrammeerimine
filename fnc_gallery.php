@@ -11,15 +11,19 @@ function show_latest_public_photo() {
     );
     $conn->set_charset("utf8");
     $stmt = $conn->prepare(
-        "SELECT filename, alttext FROM vpr_photos WHERE id = (SELECT MAX(id) FROM vpr_photos WHERE privacy = ? AND deleted IS NULL)"
+        "SELECT id, alttext FROM vpr_photos WHERE id = (SELECT MAX(id) FROM vpr_photos WHERE privacy = ? AND deleted IS NULL)"
     );
     echo $conn->error;
     $stmt->bind_param("i", $privacy);
-    $stmt->bind_result($filename_from_db, $alttext_from_db);
+    $stmt->bind_result($id_from_db, $alttext_from_db);
     $stmt->execute();
     if ($stmt->fetch()) {
-        // <img alt="alttekst" src="kataloog/filename">
-        $photo_html = '<img src="' . $GLOBALS["photo_upload_normal_dir"] . $filename_from_db . '" alt="';
+        /**
+         * <img alt="alttekst" src="kataloog/filename">
+         * <img alt="alttekst" src="show_public_photo?photo=36">
+         * $photo_html = '<img src="' . $GLOBALS["photo_upload_normal_dir"] . $filename_from_db . '" alt="';
+         */
+        $photo_html = '<img src="show_public_photo?photo=' . $id_from_db . '" alt="';
         if (empty($alttext_from_db)) {
             $photo_html .= "Üleslaetud foto";
         } else {
@@ -45,24 +49,21 @@ function read_public_photo_thumbs($privacy, $page, $limit) {
     );
     $conn->set_charset("utf8");
     /**
-     * $stmt = $conn->prepare("
-     *     SELECT filename, alttext FROM vpr_photos WHERE privacy >= ? AND deleted IS NULL"
-     * );
-     * $stmt = $conn->prepare("
-     *     SELECT filename, alttext FROM vpr_photos WHERE privacy >= ? AND deleted IS NULL ORDER BY id DESC"
+     * $stmt = $conn->prepare(
+     *     "SELECT id, filename, created, alttext FROM vpr_photos WHERE privacy >= ? AND deleted IS NULL ORDER BY id DESC LIMIT ?, ?"
      * );
      */
     $stmt = $conn->prepare(
-        "SELECT filename, created, alttext FROM vpr_photos WHERE privacy >= ? AND deleted IS NULL ORDER BY id DESC LIMIT ?, ?"
+        "SELECT vpr_photos.id, filename, alttext, vpr_photos.created, firstname, lastname, AVG(rating) as AvgValue FROM vpr_photos JOIN vpr_users ON vpr_photos.userid = vpr_users.id LEFT JOIN vpr_photoratings ON vpr_photoratings.photoid = vpr_photos.id WHERE vpr_photos.privacy >= ? AND deleted IS NULL GROUP BY vpr_photos.id DESC LIMIT ?,?"
     );
     echo $conn->error;
     $stmt->bind_param("iii", $privacy, $skip, $limit);
-    $stmt->bind_result($filename_from_db, $created_from_db, $alttext_from_db);
+    $stmt->bind_result($id_from_db, $filename_from_db, $alttext_from_db, $created_from_db, $firstname_from_db, $lastname_from_db, $avg_rating_from_db);
     $stmt->execute();
     while ($stmt->fetch()) {
         /**
-         * <div>
-         * <img alt="alttekst" src="kataloog/filename">
+         * <div class="thumbgallery">
+         * <img alt="alttekst" class="thumbs" data-fn="failinimi.jpg" data-id="x" src="kataloog/filename">
          * ....
          * </div>
          */
@@ -73,8 +74,16 @@ function read_public_photo_thumbs($privacy, $page, $limit) {
         } else {
             $photo_html .= $alttext_from_db;
         }
-        $photo_html .= '" class="thumbs">' . "\n";
-        $photo_html .= "<p>Lisatud: " . date_to_est_format($created_from_db) . "</p> \n";
+        $photo_html .= '" class="thumbs" data-id="' . $id_from_db . '" data-fn="' . $filename_from_db . '">' . "\n";
+        $photo_html .= "<p>" . $firstname_from_db . " " . $lastname_from_db . "<br> \n";
+        $photo_html .= "Lisatud: " . date_to_est_format($created_from_db) . "</p> \n";
+        $photo_html .= '<p id="rating' . $id_from_db . '">';
+        if (!empty($avg_rating_from_db)) {
+            $photo_html .= "Hinne: " . round($avg_rating_from_db, 2);
+        } else {
+            $photo_html .= "Pole hinnatud";
+        }
+        $photo_html .= "</p> \n";
         $photo_html .= "</div> \n";
     }
     if (empty($photo_html)) {

@@ -1,12 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION["user_id"])) {
-    header("Location: page2.php");
-}
-if (isset($_GET["logout"])){
-    session_destroy();
-    header("Location: page2.php");
-}
+require_once "use_session.php";
 require_once "../../config.php";
 require_once "fnc_user.php";
 require_once "fnc_general.php";

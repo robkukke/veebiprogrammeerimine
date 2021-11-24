@@ -1,12 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION["user_id"])) {
-    header("Location: page2.php");
-}
-if (isset($_GET["logout"])) {
-    session_destroy();
-    header("Location: page2.php");
-}
+require_once "use_session.php";
 require_once "../../config.php";
 require_once "fnc_gallery.php";
 require_once "fnc_general.php";
@@ -14,10 +7,9 @@ $photo_upload_orig_dir = "upload_photos_orig/";
 $photo_upload_normal_dir = "upload_photos_normal/";
 $photo_upload_thumb_dir = "upload_photos_thumb/";
 $page = 1;
-$limit = 20;
+$limit = 15;
 $public_from = 2;
 $photo_count = count_public_photos($public_from);
-$to_head = '<link rel="stylesheet" type="text/css" href="style/gallery.css">';
 
 if (!isset($_GET["page"]) or $_GET["page"] < 1) {
     $page = 1;
@@ -27,8 +19,31 @@ if (!isset($_GET["page"]) or $_GET["page"] < 1) {
     $page = $_GET["page"];
 }
 
+$to_head = '<link rel="stylesheet" type="text/css" href="style/gallery.css">' . "\n";
+$to_head .= '<link rel="stylesheet" type="text/css" href="style/modal.css">' . "\n";
+$to_head .= '<script src="javascript/modal.js" defer></script>' . "\n";
 require_once "page_header.php";
 ?>
+	<!--Modaalaken galeriipildi näitamiseks-->
+	<div class="modalarea" id="modalarea">
+		<!--sulgemisnupp-->
+		<span class="modalclose" id="modalclose">&times;</span>
+		<div class="modalhorizontal">
+			<div class="modalvertical">
+				<p id="modalcaption"></p>
+				<img alt="Galeriipilt" id="modalimg" src="pics/empty.png">
+				<br>
+				<input id="rate1" name="rating" type="radio" value="1"><label for="rate1">1</label>
+				<input id="rate2" name="rating" type="radio" value="2"><label for="rate2">2</label>
+				<input id="rate3" name="rating" type="radio" value="3"><label for="rate3">3</label>
+				<input id="rate4" name="rating" type="radio" value="4"><label for="rate4">4</label>
+				<input id="rate5" name="rating" type="radio" value="5"><label for="rate5">5</label>
+				<button id="storeRating" type="button">Salvesta hinne</button>
+				<br>
+				<p id="avgRating"></p>
+			</div>
+		</div>
+	</div>
 	<h1><?= $_SESSION["user_firstname"] . " " . $_SESSION["user_lastname"] ?>, veebiprogrammeerimine</h1>
 	<p>See leht on valminud õppetöö raames ja ei sisalda mingit tõsiseltvõetavat sisu!</p>
 	<p>Õppetöö toimub <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
@@ -40,7 +55,7 @@ require_once "page_header.php";
 	</ul>
 	<hr>
 	<h2>Avalike fotode galerii</h2>
-	<div>
+	<div class="gallery" id="gallery">
 		<p>
 			<?php
 			// <span>Eelmine leht</span> | <span>Järgmine leht</span>
