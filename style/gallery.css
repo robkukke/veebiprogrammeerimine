@@ -4,10 +4,15 @@
 
 .thumbgallery {
 	float: left;
-	height: 200px;
+	height: 220px;
 	margin-right: 5px;
 	padding: 5px;
 	width: 100px;
+}
+
+.thumbgallery p {
+	margin-bottom: 1px;
+	margin-top: 1px;
 }
 
 .thumbs {
