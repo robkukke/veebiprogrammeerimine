@@ -47,13 +47,13 @@ if (isset($_POST["photo_submit"])) {
                 $photo_error .= $photo_upload->check_size($photo_upload_size_limit);
                 // kui seni vigu pole, laeme üles
                 if (empty($photo_error)) {
-                    // failinime
+                    // failinimi
                     $photo_upload->create_filename($photo_filename_prefix);
                     // normaalmõõdus foto
                     $photo_upload->resize_photo($normal_photo_max_width, $normal_photo_max_height);
                     $photo_upload->add_watermark($watermark_file);
                     $photo_upload_notice = "Vähendatud pildi " . $photo_upload->save_image($photo_upload_normal_dir . $photo_upload->file_name);
-                    // teen pidipildi
+                    // teen pisipildi
                     $photo_upload->resize_photo($thumbnail_width, $thumbnail_height);
                     $photo_upload_notice .= " Pisipildi " . $photo_upload->save_image($photo_upload_thumb_dir . $photo_upload->file_name);
                     // kopeerime pildi originaalkujul, originaalnimega vajalikku kataloogi
