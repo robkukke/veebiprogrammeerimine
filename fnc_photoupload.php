@@ -129,3 +129,26 @@ function store_photo_data($image_file_name, $alt, $privacy) {
     $conn->close();
     return $notice;
 }
+
+function store_newsphoto_data($image_file_name) {
+    $conn = new mysqli(
+        $GLOBALS["server_host"],
+        $GLOBALS["server_user_name"],
+        $GLOBALS["server_password"],
+        $GLOBALS["database"]
+    );
+    $conn->set_charset("utf8");
+    $stmt = $conn->prepare(
+        "INSERT INTO vpr_newsphotos (filename, userid) VALUES (?, ?)"
+    );
+    echo $conn->error;
+    $stmt->bind_param("si", $image_file_name, $_SESSION["user_id"]);
+    if ($stmt->execute()) {
+        $notice = $conn->insert_id;
+    } else {
+        $notice = "Uue uudisefoto andmebaasi salvestamisel tekkis viga: " . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+    return $notice;
+}

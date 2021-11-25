@@ -1,5 +1,7 @@
 <?php
 require_once "use_session.php";
+require_once "../../config.php";
+require_once "fnc_news.php";
 
 /**
  * proovin klassi
@@ -52,5 +54,7 @@ require_once "page_header.php";
 		<li><a href="gallery_own.php">Minu oma fotode galerii</a></li>
 		<li><a href="add_news.php">Uudise lisamine</a></li>
 	</ul>
+	<hr>
+	<?= display_news() ?>
 </body>
 </html>
