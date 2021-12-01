@@ -54,7 +54,8 @@ require_once "page_header.php";
 		<li><a href="gallery_own.php">Minu oma fotode galerii</a></li>
 		<li><a href="add_news.php">Uudise lisamine</a></li>
 	</ul>
-	<hr>
-	<?= display_news() ?>
+	<br>
+	<h2>Uudised</h2>
+	<?= latest_news(5) ?>
 </body>
 </html>
