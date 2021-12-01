@@ -41,7 +41,7 @@ if (isset($_POST["photo_submit"])) {
         $photo_upload = new Photoupload($_FILES["photo_input"]);
         if (empty($photo_upload->error)) {
             // kas on lubatud tüüpi
-            $photo_error .= $photo_upload->check_alowed_type($allowed_photo_types);
+            $photo_error .= $photo_upload->check_allowed_type($allowed_photo_types);
             if (empty($photo_upload->error)) {
                 // kas on lubatud suurusega
                 $photo_error .= $photo_upload->check_size($photo_upload_size_limit);

@@ -55,7 +55,7 @@ class Photoupload {
         return $error;
     }
 
-    public function check_alowed_type($allowed_types) {
+    public function check_allowed_type($allowed_types) {
         $error = null;
         $file_info = getimagesize($this->photo_to_upload["tmp_name"]);
         if (isset($file_info["mime"])) {
